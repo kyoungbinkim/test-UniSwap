@@ -6,20 +6,25 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "testrpc": "node ./node_modules/ganache-cli/cli.js --hardfork istanbul --port 8545 --gasLimit 0x7fffffffffffffff --gasPrice 1 --defaultBalanceEther 9000000000000 --networkId 1234 --account_keys_path keys.json"
+    "testrpc": "node ./node_modules/ganache-cli/cli.js --hardfork istanbul --port 8545 --gasLimit 0x7fffffffffffffff --gasPrice 1 --defaultBalanceEther 9000000000000 --networkId 1234 --account_keys_path keys.json",
+    "ganacherpc": "node ./node_modules/ganache/dist/node/cli.js --hardfork istanbul --port 8545 --gasLimit 0x7fffffffffffffff --gasPrice 1 --defaultBalanceEther 9000000000000 --networkId 1234 --account_keys_path keys.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@openzeppelin/contracts": "^3.4.1-solc-0.7-2",
+    "@uniswap/sdk-core": "^5.3.1",
     "@uniswap/v2-core": "^1.0.1",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "@uniswap/v3-core": "^1.0.1",
     "@uniswap/v3-periphery": "^1.4.4",
+    "@uniswap/v3-sdk": "^3.13.1",
+    "ethers": "^5.7.2",
     "fs": "^0.0.1-security",
+    "ganache": "^7.9.2",
     "ganache-cli": "^6.12.2",
     "lodash": "^4.17.21",
-    "web3": "^1.10.3"
+    "web3": "^4.10.0"
   }
 }
