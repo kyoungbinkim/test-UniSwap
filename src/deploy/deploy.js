@@ -6,11 +6,11 @@ import { Token } from '@uniswap/sdk-core'
 
 const rpc = 'http://localhost:8545';
 
-const WETH9 = JSON.parse(fs.readFileSync('../WETH9.json', 'utf-8'));
+const WETH9 = JSON.parse(fs.readFileSync('../build/contracts/WETH9.json', 'utf-8'));
 // const factoryArtifact = JSON.parse(fs.readFileSync('../contract/build/contracts/UniswapV2Factory.json', 'utf-8'));
 // const routerArtifact = JSON.parse(fs.readFileSync('../contract/build/contracts/UniswapV2Router02.json', 'utf-8'));
 // const pairArtifact = JSON.parse(fs.readFileSync('../contract/build/contracts/IUniswapV2Pair.json', 'utf-8'))
-const erc20Artifact = JSON.parse(fs.readFileSync('../contract/build/contracts/myERC20.json', 'utf-8'));
+const erc20Artifact = JSON.parse(fs.readFileSync('../build/contracts/myERC20.json', 'utf-8'));
 
 import poolV3Artifact from '@uniswap/v3-core/artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json' assert { type: "json" };
 import factoryV3Artifact from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json' assert { type: "json" };
@@ -24,7 +24,7 @@ import {
     getAddress,
     getPrivateKey,
     getBalance
-} from './utils/ganache.js';
+} from '../utils/ganache.js';
 
 const deploy = async (from, sk, params, rpc, abi, bytecode, gasPrice = _gasPrice) => {
     const web3 = new Web3(rpc);

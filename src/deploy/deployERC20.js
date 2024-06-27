@@ -1,9 +1,6 @@
 import Web3 from 'web3';
 import fs from 'fs';
 
-import { computePoolAddress, FeeAmount, Pool } from '@uniswap/v3-sdk'
-import { Token } from '@uniswap/sdk-core'
-
 const rpc = 'http://localhost:8545';
 
 const _gasPrice = '0xffffffff'
@@ -12,10 +9,10 @@ import {
       getAddress,
       getPrivateKey,
       getBalance
-} from './utils/ganache.js';
+} from '../utils/ganache.js';
 
-const WETH9 = JSON.parse(fs.readFileSync('../WETH9.json', 'utf-8'));
-const erc20Artifact = JSON.parse(fs.readFileSync('./build/contracts/myERC20.json', 'utf-8'));
+const WETH9 = JSON.parse(fs.readFileSync('../build/contracts/WETH9.json', 'utf-8'));
+const erc20Artifact = JSON.parse(fs.readFileSync('../build/contracts/myERC20.json', 'utf-8'));
 
 const deploy = async (from, sk, params, rpc, abi, bytecode, gasPrice = _gasPrice) => {
       const web3 = new Web3(rpc);
@@ -91,8 +88,8 @@ const deployAllERC20 = async () => {
             USDC: USDCContract._address,
             WETH9: WETH9Contract._address
       }
-      fs.writeFileSync('./addr/ERC20Addr.json', JSON.stringify(contractAddrs,null,2))
-      fs.writeFileSync('./deploy-v3/.env', `ETH_WETH_ADDR=${WETH9Contract._address}`)
+      fs.writeFileSync('../addr/ERC20Addr.json', JSON.stringify(contractAddrs,null,2))
+      fs.writeFileSync('../uniswap-deploy-v3/.env', `ETH_WETH_ADDR=${WETH9Contract._address}`)
 }
 
 deployAllERC20()

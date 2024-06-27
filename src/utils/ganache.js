@@ -3,7 +3,7 @@ import fs from 'fs';
 import Web3 from 'web3';
 
 const rpc = 'http://localhost:8545';
-const KeysJson = JSON.parse(fs.readFileSync('../keys.json', 'utf-8'));
+const KeysJson = JSON.parse(fs.readFileSync('../../keys.json', 'utf-8'));
 const AddressList = _.keys(_.get(KeysJson, 'private_keys'))
 
 export function getAddress(idx = 0) {

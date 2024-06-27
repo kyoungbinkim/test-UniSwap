@@ -14,7 +14,7 @@ import {
   getAddress,
   getPrivateKey,
   getBalance
-} from './utils/ganache.js';
+} from '../utils/ganache.js';
 
 
 const {
