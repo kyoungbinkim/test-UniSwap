@@ -1,3 +1,0 @@
-[submodule "src/deploy-v3"]
-	path = src/deploy-v3
-	url = https://github.com/Uniswap/deploy-v3.git

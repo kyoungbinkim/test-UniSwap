@@ -24,7 +24,7 @@ import {
     getAddress,
     getPrivateKey,
     getBalance
-} from '../utils/ganache.js';
+} from './utils/ganache.js';
 
 const deploy = async (from, sk, params, rpc, abi, bytecode, gasPrice = _gasPrice) => {
     const web3 = new Web3(rpc);
