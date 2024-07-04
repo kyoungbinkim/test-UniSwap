@@ -25,7 +25,7 @@ const {
       wethAddr,
       usdtAddr,
       usdcAddr,
-} = JSON.parse(fs.readFileSync('./contractAddress.json'))
+} = JSON.parse(fs.readFileSync('../contractAddress.json'))
 
 console.log("factoryAddr : ", factoryAddr)
 console.log("routerAddr : ", routerAddr)

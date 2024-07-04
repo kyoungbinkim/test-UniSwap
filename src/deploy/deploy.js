@@ -1,8 +1,10 @@
 import Web3 from 'web3';
-import fs from 'fs';
+import fs, { realpathSync } from 'fs';
 
 import { computePoolAddress, FeeAmount, Pool } from '@uniswap/v3-sdk'
 import { Token } from '@uniswap/sdk-core'
+
+let receipt = null;
 
 const rpc = 'http://localhost:8545';
 
@@ -203,10 +205,16 @@ const deployContracts = async () => {
     console.log('createPoolReceipt.contractAddress : ', poolAddr, poolAddr.slice(66))
     // const poolV3Contract = new web3.eth.Contract(poolV3Artifact.abi, createPoolReceipt);
 
-    // const liquidity = await poolV3Contract.methods.liquidity().call()
-    // const slot0 = await poolV3Contract.methods.slot0().call()
+    
     
     const poolContract = new web3.eth.Contract(poolV3Artifact.abi, poolAddr);
+
+    let liquidity = await poolContract.methods.liquidity().call()
+    let slot0 = await poolContract.methods.slot0().call()
+
+    console.log('liquidity : ', liquidity)
+    console.log('slot0 : ', slot0, '\n\n')
+
 
     await sendContractCall(
         poolContract.methods.initialize(BigInt(Math.round(Math.sqrt(9) * 2 ** 96))),
@@ -215,6 +223,11 @@ const deployContracts = async () => {
         sk
     )
 
+    liquidity = await poolContract.methods.liquidity().call()
+    slot0 = await poolContract.methods.slot0().call()
+
+    console.log('liquidity : ', liquidity)
+    console.log('slot0 : ', slot0, BigInt(Math.round(Math.sqrt(9) * 2 ** 96)), '\n\n')
 
     let ca = {
         factoryAddr: FactoryContract._address,
@@ -225,7 +238,7 @@ const deployContracts = async () => {
         usdtAddr: USDTContract._address,
         usdcAddr: USDCContract._address
     }
-    fs.writeFileSync('contractAddress.json', JSON.stringify(ca, null, 2))
+    fs.writeFileSync('../contractAddress.json', JSON.stringify(ca, null, 2))
     
     const MaxUint256 = BigInt(10 ** 30);
     await sendContractCall(
@@ -260,12 +273,12 @@ const deployContracts = async () => {
     // console.log("USDT methods : ", USDTContract.methods)
     // console.log(RouterContract.methods)
     return
-    await sendContractCall(
+    receipt = await sendContractCall(
         NFPMContract.methods.mint([
             USDTContract._address,
             USDCContract._address,
             3000n,
-            -100n,
+            0n,
             300n,
             BigInt('1'.padEnd(25, '0')),
             BigInt('1'.padEnd(25, '0')),
@@ -279,8 +292,16 @@ const deployContracts = async () => {
         swaperSk
     )
 
-    
-    await sendContractCall(
+    console.log('NFPMContract mint receipt : ', receipt)    
+
+    liquidity = await poolContract.methods.liquidity().call()
+    slot0 = await poolContract.methods.slot0().call()
+
+    console.log('liquidity : ', liquidity)
+    console.log('slot0 : ', slot0, BigInt(Math.round(Math.sqrt(9) * 2 ** 96)), '\n\n')
+
+
+    receipt = await sendContractCall(
         RouterContract.methods.exactInputSingle([
             USDTContract._address,
             USDCContract._address,
@@ -289,13 +310,13 @@ const deployContracts = async () => {
             (Math.floor(Date.now() / 1000) + 10 * 60),
             '1'.padEnd(4, '0'),
             0n,
-            0n
+            BigInt(Math.round(Math.sqrt(9) * 2 ** 96))
         ]),
         RouterContract._address,
         swaper,
         swaperSk
     )
-
+    console.log('RouterContract exactInputSingle receipt : ', receipt)
 
 
     // const PairContract = new web3.eth.Contract(pairArtifact.abi, pairAddr);
